@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CV Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Professional CV Builder</h1>
+        <label>Full Name:</label>
+        <input type="text" id="name" oninput="updatePreview()">
+        <label>Job Title:</label>
+        <input type="text" id="title" oninput="updatePreview()">
+        <label>Email:</label>
+        <input type="text" id="email" oninput="updatePreview()">
+        <label>Phone:</label>
+        <input type="text" id="phone" oninput="updatePreview()">
+        <label>Summary:</label>
+        <textarea id="summary" oninput="updatePreview()"></textarea>
+        <label>Experience:</label>
+        <textarea id="experience" oninput="updatePreview()"></textarea>
+        <label>Education:</label>
+        <textarea id="education" oninput="updatePreview()"></textarea>
+        <label>Skills:</label>
+        <textarea id="skills" oninput="updatePreview()"></textarea>
+        <button onclick="downloadPDF()">Download PDF</button>
+        <div id="preview"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
