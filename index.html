@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>CV Wizard - Professional CV Builder</title>
-    <!-- html2pdf library -->
+    <title>CV Wizard Pro – Professional CV Builder</title>
+    <!-- html2pdf & fontawesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -18,390 +15,693 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f4f7fb;
-            color: #1e293b;
+            background: #eef2f5;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             padding: 30px 20px;
         }
 
-        /* Main container */
-        .cv-builder-container {
-            max-width: 1400px;
+        /* MAIN CONTAINER */
+        .builder-wrapper {
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
-        /* Header */
+        /* HEADER */
         .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(105deg, #0B2B40 0%, #1C4E6F 100%);
             color: white;
-            padding: 32px 40px;
-            text-align: center;
+            padding: 28px 32px;
         }
         .header h1 {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
         .header h1 i {
-            margin-right: 10px;
-            color: #38bdf8;
+            margin-right: 12px;
+            color: #FFC857;
         }
         .header p {
-            margin-top: 8px;
-            opacity: 0.8;
-            font-size: 1rem;
+            opacity: 0.85;
+            margin-top: 6px;
         }
 
-        /* Two column layout */
-        .two-columns {
+        /* TWO COLUMN LAYOUT */
+        .two-cols {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0;
         }
 
-        /* Form side */
-        .form-side {
+        /* LEFT FORM PANEL */
+        .form-panel {
             background: #ffffff;
-            padding: 32px 28px;
+            padding: 28px 26px;
             border-right: 1px solid #e2e8f0;
             max-height: 85vh;
             overflow-y: auto;
         }
 
-        .form-side h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 24px;
+        .section-card {
+            background: #f9fbfd;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 28px;
+            border: 1px solid #e9edf2;
+            transition: 0.2s;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #0f172a;
+            color: #0B2B40;
+            border-left: 5px solid #FFC857;
+            padding-left: 15px;
         }
-
-        .form-group {
-            margin-bottom: 20px;
+        .form-row {
+            margin-bottom: 16px;
         }
-
         label {
+            font-weight: 600;
+            font-size: 0.8rem;
             display: block;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: #334155;
-            font-size: 0.85rem;
-            letter-spacing: 0.3px;
+            margin-bottom: 5px;
+            color: #2c3e4e;
         }
-
-        input, textarea, select {
+        input, select, textarea {
             width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid #e2e8f0;
+            padding: 10px 14px;
+            border: 1px solid #cfdee9;
             border-radius: 14px;
             font-size: 0.9rem;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-            background: #fafcff;
+            background: white;
+            transition: 0.2s;
         }
-
-        input:focus, textarea:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+            border-color: #1C4E6F;
+            box-shadow: 0 0 0 3px rgba(28,78,111,0.1);
         }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+        .inline-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-
-        .btn-download {
-            background: linear-gradient(95deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            width: 100%;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 20px;
+        .inline-group .form-row {
+            flex: 1;
+        }
+        .photo-upload {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            gap: 20px;
+            flex-wrap: wrap;
+            background: #f0f4f8;
+            padding: 12px;
+            border-radius: 20px;
+        }
+        .photo-preview-small {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ccc;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .rich-toolbar {
+            display: flex;
+            gap: 8px;
+            background: #eef2f7;
+            padding: 6px 12px;
+            border-radius: 40px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            background: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.1s;
+        }
+        .tool-btn i { margin-right: 4px; }
+        .tool-btn:hover { background: #d4e0ea; }
+        .rich-editor {
+            background: white;
+            border: 1px solid #cfdee9;
+            border-radius: 16px;
+            padding: 12px;
+            min-height: 100px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-y: auto;
+        }
+        .add-btn {
+            background: #eef2ff;
+            border: 1px dashed #1C4E6F;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .add-btn:hover { background: #1C4E6F; color: white; }
+        .delete-item {
+            background: none;
+            border: none;
+            color: #b91c1c;
+            font-size: 0.8rem;
+            cursor: pointer;
+            float: right;
+        }
+        .skill-item, .lang-item, .hobby-item {
+            background: white;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #e2edf2;
+        }
+        .extra-section {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FFC857;
         }
 
-        .btn-download:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(95deg, #1e293b 0%, #0f172a 100%);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
-        }
-
-        /* Preview side */
-        .preview-side {
-            background: #f8fafc;
-            padding: 32px 28px;
+        /* RIGHT PREVIEW PANEL */
+        .preview-panel {
+            background: #f5f8fc;
+            padding: 28px 26px;
             max-height: 85vh;
             overflow-y: auto;
         }
-
-        .preview-side h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #0f172a;
-        }
-
-        /* CV Preview Card */
-        .cv-card {
+        .cv-preview-card {
             background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
             padding: 32px;
-            transition: all 0.2s;
-            border: 1px solid #eef2ff;
         }
-
-        /* Preview inner styles */
-        .cv-name {
+        .preview-photo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 16px;
+            border: 3px solid #FFC857;
+        }
+        .preview-name {
             font-size: 2rem;
             font-weight: 800;
-            color: #0f172a;
-            letter-spacing: -0.02em;
-            margin-bottom: 4px;
+            color: #0B2B40;
         }
-        .cv-title {
-            font-size: 1rem;
+        .preview-headline {
+            color: #1C4E6F;
             font-weight: 600;
-            color: #3b82f6;
-            background: #eff6ff;
+            margin: 6px 0 12px;
+        }
+        .preview-section {
+            margin-top: 20px;
+        }
+        .preview-section h3 {
+            font-size: 1.2rem;
+            border-bottom: 2px solid #FFC857;
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 40px;
-            margin-bottom: 16px;
-        }
-        .cv-contact {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            font-size: 0.8rem;
-            color: #475569;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 16px;
-            margin-bottom: 16px;
-        }
-        .cv-section {
-            margin-bottom: 20px;
-        }
-        .cv-section-title {
-            font-weight: 700;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #3b82f6;
-            margin-bottom: 8px;
-            border-left: 3px solid #3b82f6;
-            padding-left: 12px;
-        }
-        .cv-text {
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: #334155;
-            white-space: pre-wrap;
-        }
-        hr {
-            margin: 16px 0;
-            border: 0;
-            height: 1px;
-            background: #e2e8f0;
+            margin-bottom: 10px;
         }
 
+        button.download-pdf {
+            background: #0B2B40;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button.download-pdf:hover { background: #1C4E6F; transform: translateY(-2px);}
+
         @media (max-width: 900px) {
-            .two-columns {
-                grid-template-columns: 1fr;
-            }
-            .form-side {
-                border-right: none;
-                border-bottom: 1px solid #e2e8f0;
-            }
-            body {
-                padding: 16px;
-            }
+            .two-cols { grid-template-columns: 1fr; }
+            .form-panel { border-right: none; }
         }
     </style>
 </head>
 <body>
-<div class="cv-builder-container">
+<div class="builder-wrapper">
     <div class="header">
-        <h1><i class="fas fa-file-alt"></i> CV Wizard</h1>
-        <p>Fill your details, preview instantly, and download professional CV as PDF</p>
+        <h1><i class="fas fa-magic"></i> CV Wizard Pro</h1>
+        <p>Build your professional CV – photo, rich text, unlimited sections – download PDF</p>
     </div>
-    <div class="two-columns">
-        <!-- LEFT: FORM -->
-        <div class="form-side">
-            <h2><i class="fas fa-pen-fancy"></i> Your Information</h2>
-            <div class="form-group">
-                <label>Full Name *</label>
-                <input type="text" id="fullName" placeholder="e.g., Sarah Johnson" value="Sarah Johnson">
+    <div class="two-cols">
+        <!-- LEFT FORM -->
+        <div class="form-panel" id="formPanel">
+            <!-- ========= PERSONAL DETAILS ========= -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-user-circle"></i> Personal Details</div>
+                <div class="photo-upload">
+                    <img id="photoPreview" class="photo-preview-small" src="https://via.placeholder.com/80?text=Photo" alt="preview">
+                    <input type="file" id="photoUpload" accept="image/*" style="width: auto;">
+                    <span style="font-size:12px;">Upload photo</span>
+                </div>
+                <div class="inline-group">
+                    <div class="form-row"><label>Given name</label><input type="text" id="givenName" placeholder="John" value="John"></div>
+                    <div class="form-row"><label>Family name</label><input type="text" id="familyName" placeholder="Doe" value="Doe"></div>
+                </div>
+                <div class="form-row"><label>Desired job position</label>
+                    <input type="text" id="desiredPosition" placeholder="e.g. Frontend Developer" value="Senior Full Stack Developer">
+                    <div style="margin-top: 5px;"><label style="display: inline-flex; gap:8px;"><input type="checkbox" id="useAsHeadline" checked> Use as headline</label></div>
+                </div>
+                <div class="form-row"><label>Email address</label><input type="email" id="email" value="john.doe@example.com"></div>
+                <div class="form-row"><label>Phone number</label><input type="text" id="phone" value="+1 234 567 890"></div>
+                <div class="form-row"><label>Address</label><input type="text" id="address" value="123 Main Street"></div>
+                <div class="inline-group">
+                    <div class="form-row"><label>Post code</label><input type="text" id="postcode" value="10001"></div>
+                    <div class="form-row"><label>City</label><input type="text" id="city" value="New York"></div>
+                </div>
+                <details style="margin-top:10px;"><summary>+ More personal info</summary>
+                    <div class="form-row"><label>Date of birth</label><input type="text" id="dob" placeholder="DD/MM/YYYY"></div>
+                    <div class="form-row"><label>LinkedIn</label><input type="text" id="linkedin" placeholder="linkedin.com/in/"></div>
+                    <div class="form-row"><label>Website</label><input type="text" id="website" placeholder="personal site"></div>
+                </details>
             </div>
-            <div class="form-group">
-                <label>Professional Title</label>
-                <input type="text" id="jobTitle" placeholder="e.g., Product Designer" value="Senior Product Designer">
-            </div>
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="hello@example.com" value="sarah.johnson@example.com">
-            </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" id="phone" placeholder="+1 234 567 890" value="+1 (555) 123-4567">
-            </div>
-            <div class="form-group">
-                <label>Location (City, Country)</label>
-                <input type="text" id="location" placeholder="New York, USA" value="San Francisco, CA">
-            </div>
-            <div class="form-group">
-                <label>Professional Summary</label>
-                <textarea id="summary" rows="3">Creative and analytical Product Designer with 7+ years of experience in B2B SaaS. Proven track record of leading design sprints and increasing user engagement by 35%.</textarea>
-            </div>
-            <div class="form-group">
-                <label>Work Experience</label>
-                <textarea id="experience" rows="5">Senior Product Designer - Design Studio (2022–Present)
-• Led redesign of dashboard, improving user retention by 28%.
-• Collaborated with product managers to define roadmap.
 
-Product Designer - Creative Labs (2019–2022)
-• Launched 3 major features used by 50k+ active users.</textarea>
+            <!-- ========= EDUCATION (dynamic) ========= -->
+            <div class="section-card" id="educationContainer">
+                <div class="section-title"><i class="fas fa-graduation-cap"></i> Education</div>
+                <div id="educationList"></div>
+                <button type="button" class="add-btn" id="addEducationBtn"><i class="fas fa-plus-circle"></i> Add Education</button>
             </div>
-            <div class="form-group">
-                <label>Education</label>
-                <textarea id="education" rows="3">MSc in Human-Computer Interaction
-Stanford University (2017–2019)
 
-BFA in Graphic Design
-California College of the Arts (2013–2017)</textarea>
+            <!-- ========= EMPLOYMENT (dynamic) ========= -->
+            <div class="section-card" id="employmentContainer">
+                <div class="section-title"><i class="fas fa-briefcase"></i> Employment</div>
+                <div id="employmentList"></div>
+                <button type="button" class="add-btn" id="addEmploymentBtn"><i class="fas fa-plus-circle"></i> Add Employment</button>
             </div>
-            <div class="form-group">
-                <label>Skills & Competencies</label>
-                <textarea id="skills" rows="3">Figma, Adobe XD, User Research, Prototyping, Design Systems, HTML/CSS basics, Agile methodology.</textarea>
+
+            <!-- ========= SKILLS (dynamic) ========= -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-code"></i> Skills</div>
+                <div id="skillsList"></div>
+                <button type="button" class="add-btn" id="addSkillBtn"><i class="fas fa-plus"></i> Add skill</button>
             </div>
-            <button class="btn-download" id="downloadPDFbtn"><i class="fas fa-download"></i> Download CV as PDF</button>
+
+            <!-- ========= LANGUAGES (dynamic) ========= -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-language"></i> Languages</div>
+                <div id="languagesList"></div>
+                <button type="button" class="add-btn" id="addLanguageBtn"><i class="fas fa-plus"></i> Add language</button>
+            </div>
+
+            <!-- ========= HOBBIES (dynamic) ========= -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-heart"></i> Hobbies</div>
+                <div id="hobbiesList"></div>
+                <button type="button" class="add-btn" id="addHobbyBtn"><i class="fas fa-plus"></i> Add hobby</button>
+            </div>
+
+            <!-- ========= EXTRA SECTIONS (Profile, courses, etc) ========= -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-layer-group"></i> Extra Sections</div>
+                <div id="extraSectionsContainer"></div>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                    <button data-section="Profile" class="add-extra-btn add-btn"><i class="fas fa-user-edit"></i> Profile</button>
+                    <button data-section="Courses" class="add-extra-btn add-btn"><i class="fas fa-book"></i> Courses</button>
+                    <button data-section="Internships" class="add-extra-btn add-btn"><i class="fas fa-chalkboard"></i> Internships</button>
+                    <button data-section="Extracurricular activities" class="add-extra-btn add-btn"><i class="fas fa-futbol"></i> Extracurricular</button>
+                    <button data-section="References" class="add-extra-btn add-btn"><i class="fas fa-users"></i> References</button>
+                    <button data-section="Qualities" class="add-extra-btn add-btn"><i class="fas fa-star"></i> Qualities</button>
+                    <button data-section="Certificates" class="add-extra-btn add-btn"><i class="fas fa-certificate"></i> Certificates</button>
+                    <button data-section="Achievements" class="add-extra-btn add-btn"><i class="fas fa-trophy"></i> Achievements</button>
+                    <button data-section="Signature" class="add-extra-btn add-btn"><i class="fas fa-signature"></i> Signature</button>
+                    <button data-section="Footer" class="add-extra-btn add-btn"><i class="fas fa-flag-checkered"></i> Footer</button>
+                    <button data-section="Custom section" class="add-extra-btn add-btn"><i class="fas fa-plus-square"></i> Custom</button>
+                </div>
+            </div>
         </div>
 
-        <!-- RIGHT: LIVE PREVIEW -->
-        <div class="preview-side">
-            <h2><i class="fas fa-eye"></i> Live Preview</h2>
-            <div id="cvPreviewContainer" class="cv-card">
-                <!-- Dynamic preview will appear here -->
+        <!-- RIGHT PREVIEW -->
+        <div class="preview-panel">
+            <div class="cv-preview-card" id="cvPreviewArea">
+                <!-- dynamic preview filled by JS -->
             </div>
+            <button class="download-pdf" id="downloadPDFBtn"><i class="fas fa-download"></i> Download CV as PDF</button>
         </div>
     </div>
 </div>
 
 <script>
-    // DOM elements
-    const fullName = document.getElementById('fullName');
-    const jobTitle = document.getElementById('jobTitle');
-    const email = document.getElementById('email');
-    const phone = document.getElementById('phone');
-    const locationEl = document.getElementById('location');
-    const summary = document.getElementById('summary');
-    const experience = document.getElementById('experience');
-    const education = document.getElementById('education');
-    const skills = document.getElementById('skills');
-    const previewDiv = document.getElementById('cvPreviewContainer');
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
+    // --------------------- UTILITIES -------------------------
+    function createRichEditor(contentId, initialHtml = "") {
+        // returns div (editor) and toolbar container
+        const container = document.createElement('div');
+        const toolbar = document.createElement('div');
+        toolbar.className = 'rich-toolbar';
+        const commands = [
+            {cmd:'bold', icon:'bold', title:'Bold'},
+            {cmd:'italic', icon:'italic', title:'Italic'},
+            {cmd:'underline', icon:'underline', title:'Underline'},
+            {cmd:'insertUnorderedList', icon:'list-ul', title:'Bullet list'},
+            {cmd:'insertOrderedList', icon:'list-ol', title:'Number list'}
+        ];
+        commands.forEach(c => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'tool-btn';
+            btn.innerHTML = `<i class="fas fa-${c.icon}"></i>`;
+            btn.title = c.title;
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.execCommand(c.cmd, false, null);
+                editor.focus();
+                triggerChange();
+            });
+            toolbar.appendChild(btn);
         });
+        const editor = document.createElement('div');
+        editor.className = 'rich-editor';
+        editor.contentEditable = "true";
+        editor.innerHTML = initialHtml || "<p>Description...</p>";
+        editor.addEventListener('input', triggerChange);
+        function triggerChange() {
+            const evt = new Event('change', {bubbles:true});
+            editor.dispatchEvent(evt);
+            updatePreview();
+        }
+        container.appendChild(toolbar);
+        container.appendChild(editor);
+        container.dataset.editorId = contentId;
+        return { container, editor };
     }
 
-    function formatLineBreaks(text) {
-        if (!text) return '';
-        return escapeHtml(text).replace(/\n/g, '<br>');
-    }
+    let photoDataUrl = "https://via.placeholder.com/80?text=Photo";
+    // Data models
+    let educations = [];
+    let employments = [];
+    let skills = [];
+    let languages = [];
+    let hobbies = [];
+    let extraSections = []; // { title, contentHtml }
 
-    function updatePreview() {
-        const nameVal = escapeHtml(fullName.value) || 'Your Name';
-        const titleVal = escapeHtml(jobTitle.value) || 'Professional Title';
-        const emailVal = escapeHtml(email.value) || 'email@example.com';
-        const phoneVal = escapeHtml(phone.value) || '+000 000 000';
-        const locVal = escapeHtml(locationEl.value);
-        const summaryVal = formatLineBreaks(summary.value);
-        const expVal = formatLineBreaks(experience.value);
-        const eduVal = formatLineBreaks(education.value);
-        const skillsVal = formatLineBreaks(skills.value);
+    // DOM elements references
+    const educationListDiv = document.getElementById('educationList');
+    const employmentListDiv = document.getElementById('employmentList');
+    const skillsListDiv = document.getElementById('skillsList');
+    const languagesListDiv = document.getElementById('languagesList');
+    const hobbiesListDiv = document.getElementById('hobbiesList');
+    const extraContainer = document.getElementById('extraSectionsContainer');
 
-        const contactHtml = `
-            <i class="fas fa-envelope"></i> ${emailVal} &nbsp;&nbsp;|&nbsp;&nbsp;
-            <i class="fas fa-phone-alt"></i> ${phoneVal}
-            ${locVal ? `&nbsp;&nbsp;|&nbsp;&nbsp; <i class="fas fa-map-marker-alt"></i> ${locVal}` : ''}
-        `;
-
-        const previewHTML = `
-            <div id="cvInnerForPDF">
-                <div class="cv-name">${nameVal}</div>
-                <div class="cv-title">${titleVal}</div>
-                <div class="cv-contact">${contactHtml}</div>
-                <div class="cv-section">
-                    <div class="cv-section-title"><i class="fas fa-user"></i> Profile</div>
-                    <div class="cv-text">${summaryVal || 'No summary added yet.'}</div>
-                </div>
-                <div class="cv-section">
-                    <div class="cv-section-title"><i class="fas fa-briefcase"></i> Work Experience</div>
-                    <div class="cv-text">${expVal || 'Add your work experience.'}</div>
-                </div>
-                <div class="cv-section">
-                    <div class="cv-section-title"><i class="fas fa-graduation-cap"></i> Education</div>
-                    <div class="cv-text">${eduVal || 'Add your educational background.'}</div>
-                </div>
-                <div class="cv-section">
-                    <div class="cv-section-title"><i class="fas fa-code"></i> Skills</div>
-                    <div class="cv-text">${skillsVal || 'List your core skills.'}</div>
-                </div>
-            </div>
-        `;
-        previewDiv.innerHTML = previewHTML;
-    }
-
-    // Real-time update on all inputs
-    const allInputs = [fullName, jobTitle, email, phone, locationEl, summary, experience, education, skills];
-    allInputs.forEach(input => {
-        input.addEventListener('input', updatePreview);
+    // ----- photo upload -----
+    document.getElementById('photoUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                photoDataUrl = ev.target.result;
+                document.getElementById('photoPreview').src = photoDataUrl;
+                updatePreview();
+            };
+            reader.readAsDataURL(file);
+        }
     });
 
-    // PDF download using html2pdf
-    function downloadPDF() {
-        const element = document.getElementById('cvInnerForPDF');
-        if (!element) return;
-        const opt = {
-            margin: [0.5, 0.5, 0.5, 0.5],
-            filename: `${fullName.value.trim() || 'CV'}_Professional.pdf`,
-            image: { type: 'jpeg', quality: 0.95 },
-            html2canvas: { scale: 2, letterRendering: true },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    // ---------- Education ----------
+    function addEducationBlock(initial = null) {
+        const idx = educations.length;
+        const div = document.createElement('div');
+        div.className = 'extra-section';
+        div.style.marginBottom = '16px';
+        div.innerHTML = `
+            <button class="delete-item" data-idx="${idx}"><i class="fas fa-trash-alt"></i> Remove</button>
+            <div class="form-row"><label>School</label><input class="edu-school" type="text" placeholder="University name" value="${initial?.school || ''}"></div>
+            <div class="form-row"><label>City</label><input class="edu-city" type="text" placeholder="City" value="${initial?.city || ''}"></div>
+            <div class="inline-group">
+                <div class="form-row"><label>Start Month</label><input class="edu-start-month" placeholder="Month" value="${initial?.startMonth || ''}"></div>
+                <div class="form-row"><label>Start Year</label><input class="edu-start-year" placeholder="Year" value="${initial?.startYear || ''}"></div>
+            </div>
+            <div class="inline-group">
+                <div class="form-row"><label>End Month</label><input class="edu-end-month" placeholder="Month" value="${initial?.endMonth || ''}"></div>
+                <div class="form-row"><label>End Year</label><input class="edu-end-year" placeholder="Year" value="${initial?.endYear || ''}"></div>
+                <div class="form-row"><label><input type="checkbox" class="edu-present" ${initial?.present ? 'checked' : ''}> Present</label></div>
+            </div>
+            <label>Description (rich text)</label>
+            <div class="rich-editor-wrapper" data-editor-idx="${idx}"></div>
+        `;
+        const wrapper = div.querySelector('.rich-editor-wrapper');
+        const { container: richContainer, editor } = createRichEditor(`edu_${idx}`, initial?.descHtml || "<p>Describe your degree, achievements...</p>");
+        wrapper.appendChild(richContainer);
+        div.querySelector('.delete-item').addEventListener('click', () => {
+            educations.splice(idx,1);
+            rebuildEducationList();
+            updatePreview();
+        });
+        educationListDiv.appendChild(div);
+        // store data reference later on update
+        educations[idx] = {
+            school: div.querySelector('.edu-school'), city: div.querySelector('.edu-city'),
+            startMonth: div.querySelector('.edu-start-month'), startYear: div.querySelector('.edu-start-year'),
+            endMonth: div.querySelector('.edu-end-month'), endYear: div.querySelector('.edu-end-year'),
+            present: div.querySelector('.edu-present'), editor: editor,
+            getHtml: () => editor.innerHTML
         };
-        html2pdf().set(opt).from(element).save();
+        // attach events
+        const inputs = div.querySelectorAll('input, select');
+        inputs.forEach(inp => inp.addEventListener('input', updatePreview));
+        div.querySelector('.edu-present').addEventListener('change', updatePreview);
+        updatePreview();
     }
+    function rebuildEducationList() {
+        educationListDiv.innerHTML = '';
+        educations.forEach((_, idx) => {
+            const data = educations[idx];
+            const div = document.createElement('div');
+            div.className = 'extra-section';
+            div.innerHTML = `
+                <button class="delete-item" data-idx="${idx}"><i class="fas fa-trash-alt"></i> Remove</button>
+                <div class="form-row"><label>School</label><input class="edu-school" type="text" value="${data.school.value}"></div>
+                <div class="form-row"><label>City</label><input class="edu-city" type="text" value="${data.city.value}"></div>
+                <div class="inline-group"><div><label>Start Month</label><input class="edu-start-month" value="${data.startMonth.value}"></div><div><label>Start Year</label><input class="edu-start-year" value="${data.startYear.value}"></div></div>
+                <div class="inline-group"><div><label>End Month</label><input class="edu-end-month" value="${data.endMonth.value}"></div><div><label>End Year</label><input class="edu-end-year" value="${data.endYear.value}"></div><div><label><input type="checkbox" class="edu-present" ${data.present.checked ? 'checked' : ''}> Present</label></div></div>
+                <label>Description</label><div class="rich-editor-wrapper"></div>
+            `;
+            const wrapper = div.querySelector('.rich-editor-wrapper');
+            const { container, editor: newEd } = createRichEditor(`edu_${idx}`, data.editor.innerHTML);
+            wrapper.appendChild(container);
+            div.querySelector('.delete-item').addEventListener('click', () => {
+                educations.splice(idx,1);
+                rebuildEducationList();
+                updatePreview();
+            });
+            const inputs = div.querySelectorAll('input');
+            inputs.forEach(inp => inp.addEventListener('input', updatePreview));
+            const presentChk = div.querySelector('.edu-present');
+            presentChk.addEventListener('change', updatePreview);
+            // update stored refs
+            educations[idx] = {
+                school: div.querySelector('.edu-school'), city: div.querySelector('.edu-city'),
+                startMonth: div.querySelector('.edu-start-month'), startYear: div.querySelector('.edu-start-year'),
+                endMonth: div.querySelector('.edu-end-month'), endYear: div.querySelector('.edu-end-year'),
+                present: presentChk, editor: newEd, getHtml: () => newEd.innerHTML
+            };
+            educationListDiv.appendChild(div);
+        });
+        updatePreview();
+    }
+    document.getElementById('addEducationBtn').addEventListener('click', () => {
+        educations.push({school:'',city:'',startMonth:'',startYear:'',endMonth:'',endYear:'',present:false,descHtml:'', editor:null});
+        rebuildEducationList();
+    });
 
-    document.getElementById('downloadPDFbtn').addEventListener('click', downloadPDF);
-    
-    // initial preview
+    // similarly Employment simplified version (same pattern but with position + employer)
+    function rebuildEmployment() { /* similar logic, I'll compact */ 
+        employmentListDiv.innerHTML = '';
+        employments.forEach((emp, idx) => {
+            const div = document.createElement('div'); div.className='extra-section';
+            div.innerHTML = `<button class="delete-item" data-idx="${idx}">✖ Remove</button>
+            <div class="form-row"><label>Position</label><input class="emp-position" value="${emp.position?.value||''}"></div>
+            <div class="form-row"><label>Employer</label><input class="emp-employer" value="${emp.employer?.value||''}"></div>
+            <div class="form-row"><label>City</label><input class="emp-city" value="${emp.city?.value||''}"></div>
+            <div class="inline-group"><div><label>Start Month</label><input class="emp-start-month" value="${emp.startMonth?.value||''}"></div><div><label>Start Year</label><input class="emp-start-year" value="${emp.startYear?.value||''}"></div></div>
+            <div class="inline-group"><div><label>End Month</label><input class="emp-end-month" value="${emp.endMonth?.value||''}"></div><div><label>End Year</label><input class="emp-end-year" value="${emp.endYear?.value||''}"></div><div><label><input type="checkbox" class="emp-present"> Present</label></div></div>
+            <label>Description</label><div class="rich-editor-wrapper"></div>`;
+            const wrap = div.querySelector('.rich-editor-wrapper');
+            const { container, editor } = createRichEditor(`emp_${idx}`, emp.editor?.innerHTML || "<p>Job responsibilities...</p>");
+            wrap.appendChild(container);
+            div.querySelector('.delete-item').addEventListener('click',()=>{employments.splice(idx,1); rebuildEmployment(); updatePreview();});
+            employmentListDiv.appendChild(div);
+            employments[idx] = {
+                position: div.querySelector('.emp-position'), employer: div.querySelector('.emp-employer'), city: div.querySelector('.emp-city'),
+                startMonth: div.querySelector('.emp-start-month'), startYear: div.querySelector('.emp-start-year'),
+                endMonth: div.querySelector('.emp-end-month'), endYear: div.querySelector('.emp-end-year'),
+                present: div.querySelector('.emp-present'), editor
+            };
+            const allin = div.querySelectorAll('input');
+            allin.forEach(i=>i.addEventListener('input', updatePreview));
+            div.querySelector('.emp-present').addEventListener('change', updatePreview);
+        });
+        updatePreview();
+    }
+    document.getElementById('addEmploymentBtn').addEventListener('click', ()=>{
+        employments.push({});
+        rebuildEmployment();
+    });
+
+    // Skills, languages, hobbies dynamic
+    function rebuildSkills() {
+        skillsListDiv.innerHTML='';
+        skills.forEach((s,i)=>{
+            const div = document.createElement('div'); div.className='skill-item';
+            div.innerHTML=`<div class="inline-group"><input class="skill-name" placeholder="Skill" value="${s.name?.value||''}"><select class="skill-level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Expert</option></select><button class="delete-item">✖</button></div>`;
+            div.querySelector('.skill-level').value = s.level?.value||'Intermediate';
+            div.querySelector('.delete-item').onclick = ()=>{ skills.splice(i,1); rebuildSkills(); updatePreview();};
+            skillsListDiv.appendChild(div);
+            skills[i] = {name: div.querySelector('.skill-name'), level: div.querySelector('.skill-level')};
+            skills[i].name.addEventListener('input', updatePreview);
+            skills[i].level.addEventListener('change', updatePreview);
+        });
+        updatePreview();
+    }
+    document.getElementById('addSkillBtn').addEventListener('click',()=>{skills.push({}); rebuildSkills();});
+    function rebuildLanguages() {
+        languagesListDiv.innerHTML='';
+        languages.forEach((l,i)=>{
+            const div=document.createElement('div');div.className='lang-item';
+            div.innerHTML=`<div class="inline-group"><input placeholder="Language" value="${l.lang?.value||''}"><select class="lang-level"><option>Native</option><option>Fluent</option><option>Professional</option><option>Basic</option></select><button class="delete-item">✖</button></div>`;
+            div.querySelector('.lang-level').value = l.level?.value||'Fluent';
+            div.querySelector('.delete-item').onclick=()=>{languages.splice(i,1); rebuildLanguages(); updatePreview();};
+            languagesListDiv.appendChild(div);
+            languages[i] = {lang: div.querySelector('input'), level: div.querySelector('.lang-level')};
+            languages[i].lang.addEventListener('input',updatePreview);
+            languages[i].level.addEventListener('change',updatePreview);
+        });
+        updatePreview();
+    }
+    document.getElementById('addLanguageBtn').addEventListener('click',()=>{languages.push({}); rebuildLanguages();});
+    function rebuildHobbies() {
+        hobbiesListDiv.innerHTML='';
+        hobbies.forEach((h,i)=>{
+            const div=document.createElement('div');div.className='hobby-item';
+            div.innerHTML=`<input placeholder="Hobby" value="${h?.value||''}"><button class="delete-item">✖</button>`;
+            div.querySelector('.delete-item').onclick=()=>{hobbies.splice(i,1); rebuildHobbies(); updatePreview();};
+            hobbiesListDiv.appendChild(div);
+            hobbies[i] = div.querySelector('input');
+            hobbies[i].addEventListener('input', updatePreview);
+        });
+        updatePreview();
+    }
+    document.getElementById('addHobbyBtn').addEventListener('click',()=>{hobbies.push({value:''}); rebuildHobbies();});
+
+    // extra sections
+    function rebuildExtraSections() {
+        extraContainer.innerHTML='';
+        extraSections.forEach((sec, idx) => {
+            const div = document.createElement('div'); div.className='extra-section';
+            div.innerHTML = `<strong>${sec.title}</strong> <button class="delete-item" data-idx="${idx}">✖ Remove</button><div class="rich-editor-wrapper"></div>`;
+            const wrap = div.querySelector('.rich-editor-wrapper');
+            const { container, editor } = createRichEditor(`extra_${idx}`, sec.contentHtml || `<p>Add ${sec.title} details...</p>`);
+            wrap.appendChild(container);
+            div.querySelector('.delete-item').addEventListener('click', () => { extraSections.splice(idx,1); rebuildExtraSections(); updatePreview(); });
+            extraContainer.appendChild(div);
+            extraSections[idx] = { title: sec.title, editor: editor, getHtml: () => editor.innerHTML };
+        });
+        updatePreview();
+    }
+    document.querySelectorAll('.add-extra-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const title = btn.getAttribute('data-section');
+            extraSections.push({ title: title, contentHtml: `<p>Your ${title.toLowerCase()}...</p>` });
+            rebuildExtraSections();
+        });
+    });
+
+    // ---------- LIVE PREVIEW ----------
+    function updatePreview() {
+        const given = document.getElementById('givenName').value;
+        const family = document.getElementById('familyName').value;
+        const fullName = given + " " + family;
+        const useHeadline = document.getElementById('useAsHeadline').checked;
+        const desiredPos = document.getElementById('desiredPosition').value;
+        const headline = useHeadline ? desiredPos : '';
+        let html = `<div id="pdfContent"><div style="text-align:center;">${photoDataUrl ? `<img src="${photoDataUrl}" class="preview-photo" style="width:110px;height:110px;border-radius:50%;">` : ''}</div>
+        <div class="preview-name">${escapeHtml(fullName)}</div>${headline ? `<div class="preview-headline">${escapeHtml(headline)}</div>` : ''}
+        <div><i class="fas fa-envelope"></i> ${escapeHtml(document.getElementById('email').value)} &nbsp;|&nbsp; <i class="fas fa-phone"></i> ${escapeHtml(document.getElementById('phone').value)}</div>
+        <div>${escapeHtml(document.getElementById('address').value)}, ${escapeHtml(document.getElementById('postcode').value)} ${escapeHtml(document.getElementById('city').value)}</div>`;
+        // Education
+        if(educations.length) html+=`<div class="preview-section"><h3>🎓 Education</h3>`;
+        educations.forEach(edu => {
+            const school = edu.school?.value || ''; const city = edu.city?.value || '';
+            const start = `${edu.startMonth?.value||''} ${edu.startYear?.value||''}`;
+            let end = edu.present?.checked ? 'Present' : `${edu.endMonth?.value||''} ${edu.endYear?.value||''}`;
+            html+=`<div><strong>${escapeHtml(school)}</strong> (${city})<br><em>${start} - ${end}</em><br>${edu.editor?.innerHTML || ''}</div><hr>`;
+        }); if(educations.length) html+=`</div>`;
+        // Employment
+        if(employments.length) html+=`<div class="preview-section"><h3>💼 Work Experience</h3>`;
+        employments.forEach(emp=>{
+            const pos=emp.position?.value||'', employer=emp.employer?.value||'', city=emp.city?.value||'';
+            const start=`${emp.startMonth?.value||''} ${emp.startYear?.value||''}`;
+            let end=emp.present?.checked?'Present':`${emp.endMonth?.value||''} ${emp.endYear?.value||''}`;
+            html+=`<div><strong>${escapeHtml(pos)}</strong> at ${escapeHtml(employer)} (${city})<br><em>${start} - ${end}</em><br>${emp.editor?.innerHTML||''}</div><hr>`;
+        }); if(employments.length) html+=`</div>`;
+        // skills
+        if(skills.length) html+=`<div><h3>⚙️ Skills</h3><ul>`;
+        skills.forEach(s=>{ html+=`<li><strong>${escapeHtml(s.name?.value||'')}</strong> – ${s.level?.value||''}</li>`; });
+        if(skills.length) html+=`</ul></div>`;
+        // languages
+        if(languages.length) html+=`<div><h3>🗣 Languages</h3><ul>`;
+        languages.forEach(l=>{ html+=`<li>${escapeHtml(l.lang?.value||'')} – ${l.level?.value||''}</li>`; });
+        if(languages.length) html+=`</ul></div>`;
+        // hobbies
+        if(hobbies.length) html+=`<div><h3>🎯 Hobbies</h3><ul>`;
+        hobbies.forEach(h=>{ if(h.value) html+=`<li>${escapeHtml(h.value)}</li>`; });
+        if(hobbies.length) html+=`</ul></div>`;
+        // extra sections
+        extraSections.forEach(sec=>{
+            html+=`<div class="preview-section"><h3>📌 ${escapeHtml(sec.title)}</h3>${sec.editor?.innerHTML||''}</div>`;
+        });
+        html+=`</div>`;
+        document.getElementById('cvPreviewArea').innerHTML = html;
+    }
+    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;});}
+    // attach listeners to personal inputs
+    const personalInputs = ['givenName','familyName','desiredPosition','useAsHeadline','email','phone','address','postcode','city','dob','linkedin','website'];
+    personalInputs.forEach(id=>{ const el = document.getElementById(id); if(el) el.addEventListener('input', updatePreview); if(id==='useAsHeadline') el.addEventListener('change', updatePreview); });
+    // PDF download
+    document.getElementById('downloadPDFBtn').addEventListener('click', ()=>{
+        const element = document.getElementById('cvPreviewArea');
+        const opt = { margin: [0.5,0.5,0.5,0.5], filename: `${document.getElementById('givenName').value}_CV.pdf`, image: {type:'jpeg',quality:0.95}, html2canvas:{scale:2}, jsPDF:{unit:'in',format:'a4',orientation:'portrait'} };
+        html2pdf().set(opt).from(element).save();
+    });
+    // init empty arrays with demo data
+    educations.push({school:{value:'MIT'},city:{value:'Boston'},startMonth:{value:'Sep'},startYear:{value:'2015'},endMonth:{value:'Jun'},endYear:{value:'2019'},present:{checked:false}, editor:{innerHTML:'<p>BSc Computer Science, GPA 3.8</p>'}});
+    employments.push({position:{value:'Frontend Lead'},employer:{value:'TechCorp'},city:{value:'NYC'},startMonth:{value:'Jan'},startYear:{value:'2020'},endMonth:{value:''},endYear:{value:''},present:{checked:true}, editor:{innerHTML:'<p>Developed design systems, led 3 devs</p>'}});
+    skills.push({name:{value:'React'},level:{value:'Expert'}});
+    languages.push({lang:{value:'English'},level:{value:'Fluent'}});
+    hobbies.push({value:'Photography'});
+    rebuildEducationList();
+    rebuildEmployment();
+    rebuildSkills();
+    rebuildLanguages();
+    rebuildHobbies();
+    rebuildExtraSections();
     updatePreview();
 </script>
 </body>
