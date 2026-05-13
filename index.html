@@ -1,32 +1,408 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CV Builder</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CV Wizard - Professional CV Builder</title>
+    <!-- html2pdf library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+            padding: 30px 20px;
+        }
+
+        /* Main container */
+        .cv-builder-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 32px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .header h1 i {
+            margin-right: 10px;
+            color: #38bdf8;
+        }
+        .header p {
+            margin-top: 8px;
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+
+        /* Two column layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        /* Form side */
+        .form-side {
+            background: #ffffff;
+            padding: 32px 28px;
+            border-right: 1px solid #e2e8f0;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .form-side h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f172a;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #334155;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            background: #fafcff;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-download {
+            background: linear-gradient(95deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            width: 100%;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(95deg, #1e293b 0%, #0f172a 100%);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+        }
+
+        /* Preview side */
+        .preview-side {
+            background: #f8fafc;
+            padding: 32px 28px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .preview-side h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f172a;
+        }
+
+        /* CV Preview Card */
+        .cv-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
+            padding: 32px;
+            transition: all 0.2s;
+            border: 1px solid #eef2ff;
+        }
+
+        /* Preview inner styles */
+        .cv-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+        .cv-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #3b82f6;
+            background: #eff6ff;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            margin-bottom: 16px;
+        }
+        .cv-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: #475569;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        .cv-section {
+            margin-bottom: 20px;
+        }
+        .cv-section-title {
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3b82f6;
+            margin-bottom: 8px;
+            border-left: 3px solid #3b82f6;
+            padding-left: 12px;
+        }
+        .cv-text {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #334155;
+            white-space: pre-wrap;
+        }
+        hr {
+            margin: 16px 0;
+            border: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        @media (max-width: 900px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            .form-side {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            body {
+                padding: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Professional CV Builder</h1>
-        <label>Full Name:</label>
-        <input type="text" id="name" oninput="updatePreview()">
-        <label>Job Title:</label>
-        <input type="text" id="title" oninput="updatePreview()">
-        <label>Email:</label>
-        <input type="text" id="email" oninput="updatePreview()">
-        <label>Phone:</label>
-        <input type="text" id="phone" oninput="updatePreview()">
-        <label>Summary:</label>
-        <textarea id="summary" oninput="updatePreview()"></textarea>
-        <label>Experience:</label>
-        <textarea id="experience" oninput="updatePreview()"></textarea>
-        <label>Education:</label>
-        <textarea id="education" oninput="updatePreview()"></textarea>
-        <label>Skills:</label>
-        <textarea id="skills" oninput="updatePreview()"></textarea>
-        <button onclick="downloadPDF()">Download PDF</button>
-        <div id="preview"></div>
+<div class="cv-builder-container">
+    <div class="header">
+        <h1><i class="fas fa-file-alt"></i> CV Wizard</h1>
+        <p>Fill your details, preview instantly, and download professional CV as PDF</p>
     </div>
-    <script src="script.js"></script>
+    <div class="two-columns">
+        <!-- LEFT: FORM -->
+        <div class="form-side">
+            <h2><i class="fas fa-pen-fancy"></i> Your Information</h2>
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="fullName" placeholder="e.g., Sarah Johnson" value="Sarah Johnson">
+            </div>
+            <div class="form-group">
+                <label>Professional Title</label>
+                <input type="text" id="jobTitle" placeholder="e.g., Product Designer" value="Senior Product Designer">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="hello@example.com" value="sarah.johnson@example.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="phone" placeholder="+1 234 567 890" value="+1 (555) 123-4567">
+            </div>
+            <div class="form-group">
+                <label>Location (City, Country)</label>
+                <input type="text" id="location" placeholder="New York, USA" value="San Francisco, CA">
+            </div>
+            <div class="form-group">
+                <label>Professional Summary</label>
+                <textarea id="summary" rows="3">Creative and analytical Product Designer with 7+ years of experience in B2B SaaS. Proven track record of leading design sprints and increasing user engagement by 35%.</textarea>
+            </div>
+            <div class="form-group">
+                <label>Work Experience</label>
+                <textarea id="experience" rows="5">Senior Product Designer - Design Studio (2022–Present)
+• Led redesign of dashboard, improving user retention by 28%.
+• Collaborated with product managers to define roadmap.
+
+Product Designer - Creative Labs (2019–2022)
+• Launched 3 major features used by 50k+ active users.</textarea>
+            </div>
+            <div class="form-group">
+                <label>Education</label>
+                <textarea id="education" rows="3">MSc in Human-Computer Interaction
+Stanford University (2017–2019)
+
+BFA in Graphic Design
+California College of the Arts (2013–2017)</textarea>
+            </div>
+            <div class="form-group">
+                <label>Skills & Competencies</label>
+                <textarea id="skills" rows="3">Figma, Adobe XD, User Research, Prototyping, Design Systems, HTML/CSS basics, Agile methodology.</textarea>
+            </div>
+            <button class="btn-download" id="downloadPDFbtn"><i class="fas fa-download"></i> Download CV as PDF</button>
+        </div>
+
+        <!-- RIGHT: LIVE PREVIEW -->
+        <div class="preview-side">
+            <h2><i class="fas fa-eye"></i> Live Preview</h2>
+            <div id="cvPreviewContainer" class="cv-card">
+                <!-- Dynamic preview will appear here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DOM elements
+    const fullName = document.getElementById('fullName');
+    const jobTitle = document.getElementById('jobTitle');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    const locationEl = document.getElementById('location');
+    const summary = document.getElementById('summary');
+    const experience = document.getElementById('experience');
+    const education = document.getElementById('education');
+    const skills = document.getElementById('skills');
+    const previewDiv = document.getElementById('cvPreviewContainer');
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    function formatLineBreaks(text) {
+        if (!text) return '';
+        return escapeHtml(text).replace(/\n/g, '<br>');
+    }
+
+    function updatePreview() {
+        const nameVal = escapeHtml(fullName.value) || 'Your Name';
+        const titleVal = escapeHtml(jobTitle.value) || 'Professional Title';
+        const emailVal = escapeHtml(email.value) || 'email@example.com';
+        const phoneVal = escapeHtml(phone.value) || '+000 000 000';
+        const locVal = escapeHtml(locationEl.value);
+        const summaryVal = formatLineBreaks(summary.value);
+        const expVal = formatLineBreaks(experience.value);
+        const eduVal = formatLineBreaks(education.value);
+        const skillsVal = formatLineBreaks(skills.value);
+
+        const contactHtml = `
+            <i class="fas fa-envelope"></i> ${emailVal} &nbsp;&nbsp;|&nbsp;&nbsp;
+            <i class="fas fa-phone-alt"></i> ${phoneVal}
+            ${locVal ? `&nbsp;&nbsp;|&nbsp;&nbsp; <i class="fas fa-map-marker-alt"></i> ${locVal}` : ''}
+        `;
+
+        const previewHTML = `
+            <div id="cvInnerForPDF">
+                <div class="cv-name">${nameVal}</div>
+                <div class="cv-title">${titleVal}</div>
+                <div class="cv-contact">${contactHtml}</div>
+                <div class="cv-section">
+                    <div class="cv-section-title"><i class="fas fa-user"></i> Profile</div>
+                    <div class="cv-text">${summaryVal || 'No summary added yet.'}</div>
+                </div>
+                <div class="cv-section">
+                    <div class="cv-section-title"><i class="fas fa-briefcase"></i> Work Experience</div>
+                    <div class="cv-text">${expVal || 'Add your work experience.'}</div>
+                </div>
+                <div class="cv-section">
+                    <div class="cv-section-title"><i class="fas fa-graduation-cap"></i> Education</div>
+                    <div class="cv-text">${eduVal || 'Add your educational background.'}</div>
+                </div>
+                <div class="cv-section">
+                    <div class="cv-section-title"><i class="fas fa-code"></i> Skills</div>
+                    <div class="cv-text">${skillsVal || 'List your core skills.'}</div>
+                </div>
+            </div>
+        `;
+        previewDiv.innerHTML = previewHTML;
+    }
+
+    // Real-time update on all inputs
+    const allInputs = [fullName, jobTitle, email, phone, locationEl, summary, experience, education, skills];
+    allInputs.forEach(input => {
+        input.addEventListener('input', updatePreview);
+    });
+
+    // PDF download using html2pdf
+    function downloadPDF() {
+        const element = document.getElementById('cvInnerForPDF');
+        if (!element) return;
+        const opt = {
+            margin: [0.5, 0.5, 0.5, 0.5],
+            filename: `${fullName.value.trim() || 'CV'}_Professional.pdf`,
+            image: { type: 'jpeg', quality: 0.95 },
+            html2canvas: { scale: 2, letterRendering: true },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    document.getElementById('downloadPDFbtn').addEventListener('click', downloadPDF);
+    
+    // initial preview
+    updatePreview();
+</script>
 </body>
 </html>
